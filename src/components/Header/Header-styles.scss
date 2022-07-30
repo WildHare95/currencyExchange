@@ -1,0 +1,25 @@
+.header {
+    background: rgb(13, 202, 240);
+    display: block;
+    height: 58px;
+    margin-bottom: 10px;
+
+    .placeholder {
+        height: 34px;
+        width: 75px;
+    }
+}
+
+.navbar-text {
+    &:last-child {
+        display: none;
+    }
+
+}
+
+
+@media (max-width: 360px) {
+    .header {
+        font-size: 14px;
+    }
+}

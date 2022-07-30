@@ -1,0 +1,13 @@
+@import 'scss-reset/_reset.scss';
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+body {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
