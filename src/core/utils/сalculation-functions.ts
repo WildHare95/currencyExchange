@@ -1,7 +1,8 @@
-const calculateExchange = (amount: number, firstValue: number, secondValue: number) => {
-        const res = amount * firstValue / secondValue
-        return res < 0 ? 0 : +res.toFixed(2)
+const calculateExchange = (amount: number, fromCourse: number, toCourse: number) => {
+        const res = amount * fromCourse / toCourse
+        return res
 }
+
 
 export default calculateExchange
 

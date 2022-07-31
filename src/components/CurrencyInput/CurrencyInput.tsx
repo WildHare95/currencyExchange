@@ -3,7 +3,7 @@ import { Card, Form, Placeholder } from "react-bootstrap"
 
 interface Props {
     currencies: string[] | undefined
-    amount: number | undefined,
+    amount: string | undefined,
     currency: string | undefined
     name: "before" | "after"
     handleCurrency: (currency: string, name: "before" | "after") => void

@@ -1,0 +1,15 @@
+.list-group {
+    max-width: 550px;
+    margin: 0 auto;
+
+    &-item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 5px;
+
+        span {
+            margin: 0 10px;
+        }
+    }
+}

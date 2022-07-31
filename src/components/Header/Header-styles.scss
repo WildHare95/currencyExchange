@@ -8,6 +8,10 @@
         height: 34px;
         width: 75px;
     }
+
+    .container {
+        justify-content: space-around;
+    }
 }
 
 .navbar-text {
@@ -16,6 +20,8 @@
     }
 
 }
+
+
 
 
 @media (max-width: 360px) {

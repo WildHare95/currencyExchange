@@ -55,11 +55,7 @@ function App() {
   return (
     <>
       <Header exchangeRateBuy={exchangeRateBuy} />
-      <Card>
-        <Card.Body>
-          <CardLayout rates={rates} currencies={currencies} switcher={switcher} onChangeCost={onChangeCost} />
-        </ Card.Body>
-      </Card>
+      <CardLayout rates={rates} currencies={currencies} switcher={switcher} onChangeCost={onChangeCost} />
     </>
   );
 }
