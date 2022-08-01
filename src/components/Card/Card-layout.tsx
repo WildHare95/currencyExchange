@@ -23,60 +23,50 @@ const CardLayout: FC<Props> = ({ rates, currencies, switcher, onChangeCost }) =>
   const [toCurrencyName, setCurrencyAfter] = useState("EUR")
 
   useEffect(() => {
-    if (toCurrencyValue) handleAmountChange(toCurrencyValue.toString(), "after")
+    if (toCurrencyValue) handleAmountChangeTo(toCurrencyValue.toString())
   }, [toCurrencyName])
 
   useEffect(() => {
-    if (fromCurrencyValue) handleAmountChange(fromCurrencyValue.toString(), "before")
+    if (fromCurrencyValue) handleAmountChangeFrom(fromCurrencyValue.toString())
   }, [fromCurrencyName, rates])
 
-  const handleCurrencyChange = (currency: string, name: "before" | "after") => {
-    switch (name) {
-      case "before":
-        if (currency === toCurrencyName) {
-          setCurrencyAfter(fromCurrencyName)
-          setCurrencyBefore(currency)
-        } else {
-          setCurrencyBefore(currency)
-        }
-        break
-      case "after":
-        if (currency === fromCurrencyName) {
-          setCurrencyBefore(toCurrencyName)
-          setCurrencyAfter(currency)
-        } else {
-          setCurrencyAfter(currency)
-        }
-        break
-    }
+  const handleCurrencyChangeFrom = (currency: string) => {
+    if (currency === toCurrencyName) {
+      setCurrencyAfter(fromCurrencyName)
+      setCurrencyBefore(currency)
+    } else setCurrencyBefore(currency)
+
   }
 
-  const handleAmountChange = (amount: string, name: "before" | "after") => {
+  const handleCurrencyChangeTo = (currency: string) => {
+    if (currency === fromCurrencyName) {
+      setCurrencyBefore(toCurrencyName)
+      setCurrencyAfter(currency)
+    } else setCurrencyAfter(currency)
+  }
+
+  const handleAmountChangeFrom = (amount: string) => {
     const firstValue = +rates![fromCurrencyName as keyof Rates]
     const secondValue = +rates![toCurrencyName as keyof Rates]
 
-    switch (name) {
-      case "before":
-        setAmountBefore(amount)
-        const valueBefore = calculateExchange(+amount, firstValue, secondValue)
-        if (toCurrencyName === rates!.BTC) {
-          const _amountAfter = valueBefore.toFixed(Math.round(1 / valueBefore).toString().length + 1)
-          setAmountAfter(_amountAfter)
-        } else {
-          setAmountAfter(valueBefore.toFixed(2))
-        }
-        break
-      case "after":
-        setAmountAfter(amount)
-        const valueAfter = calculateExchange(+amount, secondValue, firstValue)
-        if (fromCurrencyName === rates!.BTC) {
-          const _amountBefore = valueAfter.toFixed(Math.round(1 / valueAfter).toString().length + 1)
-          setAmountBefore(_amountBefore)
-        } else {
-          setAmountBefore(valueAfter.toFixed(2))
-        }
-        break
-    }
+    const valueBefore = calculateExchange(+amount, firstValue, secondValue)
+    const _amountAfter = valueBefore.toFixed(Math.round(1 / valueBefore).toString().length + 1)
+
+    setAmountBefore(amount)
+    if (toCurrencyName === "BTC") setAmountAfter(_amountAfter)
+    else setAmountAfter(_amountAfter)
+  }
+
+  const handleAmountChangeTo = (amount: string) => {
+    const firstValue = +rates![fromCurrencyName as keyof Rates]
+    const secondValue = +rates![toCurrencyName as keyof Rates]
+
+    const valueAfter = calculateExchange(+amount, secondValue, firstValue) 
+    const _amountBefore = valueAfter.toFixed(Math.round(1 / valueAfter).toString().length + 1)
+
+    setAmountAfter(amount)   
+    if (fromCurrencyName === "BTC") setAmountBefore(_amountBefore)
+    else setAmountBefore(_amountBefore)
   }
 
   return (
@@ -84,15 +74,13 @@ const CardLayout: FC<Props> = ({ rates, currencies, switcher, onChangeCost }) =>
       <Card>
         <Card.Body>
           <CurrencyInput
-            handleCurrency={handleCurrencyChange}
-            handleAmount={handleAmountChange}
-            name="before"
+            handleCurrency={handleCurrencyChangeFrom}
+            handleAmount={handleAmountChangeFrom}
             currencies={currencies} amount={fromCurrencyValue} currency={fromCurrencyName} />
 
           <CurrencyInput
-            handleCurrency={handleCurrencyChange}
-            handleAmount={handleAmountChange}
-            name="after"
+            handleCurrency={handleCurrencyChangeTo}
+            handleAmount={handleAmountChangeTo}
             currencies={currencies} amount={toCurrencyValue} currency={toCurrencyName} />
 
           <Form.Check
@@ -103,7 +91,7 @@ const CardLayout: FC<Props> = ({ rates, currencies, switcher, onChangeCost }) =>
         </ Card.Body>
       </Card>
       {
-        fromCurrencyValue && toCurrencyValue && <HistoryLayout firstValue={fromCurrencyValue} secondValue={toCurrencyValue} />
+        <HistoryLayout firstValue={fromCurrencyValue} secondValue={toCurrencyValue} />
       }
     </div>
 

@@ -5,34 +5,29 @@ interface Props {
     currencies: string[] | undefined
     amount: string | undefined,
     currency: string | undefined
-    name: "before" | "after"
-    handleCurrency: (currency: string, name: "before" | "after") => void
-    handleAmount: (amount: string, name: "before" | "after") => void
+    handleCurrency: (currency: string) => void
+    handleAmount: (amount: string) => void
 }
 
-const CurrencyInput: FC<Props> = ({ currencies, amount, currency, name, handleAmount, handleCurrency }) => {
+const CurrencyInput: FC<Props> = ({ currencies, amount, currency, handleAmount, handleCurrency }) => {
 
     const onChangeValueSelect = (event: ChangeEvent<HTMLSelectElement>) => {
         const currency = event.target.value
-        const name = event.target.name as "before" | "after"
-        handleCurrency(currency, name)
+        handleCurrency(currency)
     }
 
     const onChangeValueInput = (event: ChangeEvent<HTMLInputElement>) => {
         const amount = event.target.value
-        const name = event.target.name as "before" | "after"
-        handleAmount(amount, name)
+        handleAmount(amount)
     }
 
     return (
-        <>
-
+        <div>
             {
                 currencies ?
                     <>
                         <Form.Control
                             size="lg"
-                            name={name}
                             type="number"
                             value={amount || ""}
                             autoComplete="off"
@@ -43,7 +38,6 @@ const CurrencyInput: FC<Props> = ({ currencies, amount, currency, name, handleAm
                         <Form.Select
                             size="lg"
                             onChange={onChangeValueSelect}
-                            name={name}
                             value={currency}
                             className="mb-2"
                         >
@@ -60,7 +54,7 @@ const CurrencyInput: FC<Props> = ({ currencies, amount, currency, name, handleAm
                         <Placeholder xs={12} size="lg" />
                     </Placeholder>
             }
-        </>
+        </div>
     )
 }
 

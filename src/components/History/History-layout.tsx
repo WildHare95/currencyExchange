@@ -5,8 +5,8 @@ import { ArrowRight } from "react-bootstrap-icons"
 import "./History-styles.scss"
 
 interface Props {
-    firstValue: string
-    secondValue: string
+    firstValue: string | undefined
+    secondValue: string | undefined
 }
 
 
@@ -16,7 +16,9 @@ const HistoryLayout: FC<Props> = ({ firstValue, secondValue }) => {
 
     useEffect(() => {
         const handle = setTimeout(() => {
-            setHistory([...history, { firstValue, secondValue }])
+            if(firstValue && parseFloat(firstValue) > 0) {
+                setHistory([...history, {firstValue, secondValue}])
+            }
         }, 1750)
 
         return () => {
@@ -24,17 +26,17 @@ const HistoryLayout: FC<Props> = ({ firstValue, secondValue }) => {
         }
     }, [firstValue])
 
-
     return (
         <ListGroup as="ol" numbered >
             {
-                history.map(item => {
+                history.map((item, index) => {
                     return (
-                        <ListGroup.Item variant="primary" as="li" key={item.firstValue}>
+                        <ListGroup.Item variant="primary" as="li" key={index}>
                             <span>{item.firstValue}</span>
-                            <ArrowRight color="red" size={24}/>
+                            <ArrowRight color="red" size={24} />
                             <span>{item.secondValue}</span>
                         </ListGroup.Item>
+
                     )
                 })
             }
